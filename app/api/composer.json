@@ -1,0 +1,41 @@
+{
+    "name": "usf/e911",
+    "description": "University of South Florida 911 and E911 Disclosure, Notice, and Acknowledgement",
+    "authors": [
+        {
+            "name": "James Jones",
+            "email": "james@mail.usf.edu",
+            "role": "Developer"
+        }
+    ],
+    "config": {
+        "vendor-dir-legacy": "app/api/vendor",
+        "component-dir-legacy": "app/api/components"
+    },
+    "autoload": {
+        "psr-4" : {
+            "USF\\e911\\" : "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        { 
+            "type":"vcs",
+            "url":"https://github.com/USF-IT/usf-idm-database.git"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "slim/slim": "2.5.*",
+        "usf-it/usf-idm-common": "dev-master",
+        "angular-ui/bootstrap": "dev-master",
+        "shkm/jsend": ">1.2.0",
+        "guzzlehttp/guzzle": "~5.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.1.*",
+        "squizlabs/php_codesniffer": "2.1.*",
+        "guzzlehttp/guzzle": "~5.0"
+    }
+}
