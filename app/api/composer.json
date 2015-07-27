@@ -1,6 +1,6 @@
 {
-    "name": "usf/e911",
-    "description": "University of South Florida 911 and E911 Disclosure, Notice, and Acknowledgement",
+    "name": "usf/SecAwarenessQuiz",
+    "description": "University of South Florida Security Awareness Quiz",
     "authors": [
         {
             "name": "James Jones",
@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4" : {
-            "USF\\e911\\" : "src/"
+            "USF\\SAQ\\" : "src/"
         }
     },
     "minimum-stability": "dev",

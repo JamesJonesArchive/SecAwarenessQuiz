@@ -29,10 +29,10 @@ try {
     }
     $app = new \Slim\Slim();
     $app->post('/e911sign', function() use($app) {
-        $e911services = new \USF\e911\e911services();
+        $saqservices = new \USF\SAQ\saqservices();
         $signbody = json_decode($app->request->getBody(), true);
         if (array_key_exists('id', $signbody)) {
-            $resp = $e911services->e911sign($signbody["id"]);
+            $resp = $saqservices->e911sign($signbody["id"]);
             $app->response->headers->set('Content-Type', 'application/json');
             $app->response->setBody($resp->encode());
         } else {

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-namespace USF\e911;
+namespace USF\SAQ;
 
 use \JSend\JSendResponse;
 use \USF\IdM\UsfConfig;
@@ -27,7 +27,7 @@ use \GuzzleHttp\Client;
  *
  * @author james
  */
-class e911services {
+class saqservices {
     /**
      * Signs the disclosure by badge
      * 
