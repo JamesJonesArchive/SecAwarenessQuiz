@@ -16,23 +16,23 @@
 
 'use strict';
 
-describe('Service: e911', function () {
-    var e911Service, httpBackend;
+describe('Service: saq', function () {
+    var saqService, httpBackend;
     
     // load the service's module
-    beforeEach(module('e911App'));
+    beforeEach(module('saqApp'));
 
     // instantiate service
-    beforeEach(inject(function (_e911Service_, $httpBackend) {
-        e911Service = _e911Service_;
+    beforeEach(inject(function (_saqService_, $httpBackend) {
+        saqService = _saqService_;
         httpBackend = $httpBackend;
     }));
     
-    it('testing e911 sigining requests', function () {
+    it('testing saq sigining requests', function () {
         httpBackend.whenPOST("api/e911sign").respond(
             {"e911sign":true}
         );
-        e911Service.e911sign('ABCDEFGHIJKLMNOPQRSTUVWXYZ').then(function(response) {
+        saqService.e911sign('ABCDEFGHIJKLMNOPQRSTUVWXYZ').then(function(response) {
             expect(response.data.e911sign).toEqual(true);
         });
         httpBackend.flush();

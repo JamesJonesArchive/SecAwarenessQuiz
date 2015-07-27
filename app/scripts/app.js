@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-    .module('e911App', [
+    .module('saqApp', [
         'ngCookies',
         'ngResource',
         'ngSanitize',
@@ -12,8 +12,8 @@
     .config(function ($routeProvider) {
         $routeProvider
             .when('/', {
-                templateUrl: 'views/e911.html',
-                controller: 'e911Ctrl'
+                templateUrl: 'views/saq.html',
+                controller: 'saqCtrl'
             })
             .otherwise({
                 redirectTo: '/'

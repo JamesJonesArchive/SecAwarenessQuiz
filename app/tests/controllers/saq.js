@@ -16,17 +16,17 @@
 
 'use strict';
 
-describe('Controller: e911Ctrl', function () {
+describe('Controller: saqCtrl', function () {
     // load the controller's module
-    beforeEach(module('e911App'));
+    beforeEach(module('saqApp'));
 
-    var e911Ctrl,
-        e911Service,
+    var saqCtrl,
+        saqService,
         scope;
         
     beforeEach(function() {
         module(function($provide){
-            $provide.factory('e911Service', function() {
+            $provide.factory('saqService', function() {
                 var service;
                 inject(function($q) {
                     service = {                        
@@ -47,11 +47,11 @@ describe('Controller: e911Ctrl', function () {
     });        
     
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($controller, $rootScope, $q, _e911Service_) {
+    beforeEach(inject(function ($controller, $rootScope, $q, _saqService_) {
         $rootScope.id = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         scope = $rootScope.$new();
-        e911Service = _e911Service_;
-        e911Ctrl = $controller('e911Ctrl', {
+        saqService = _saqService_;
+        saqCtrl = $controller('saqCtrl', {
             $scope: scope,
             $q: $q,
             e911Service: e911Service

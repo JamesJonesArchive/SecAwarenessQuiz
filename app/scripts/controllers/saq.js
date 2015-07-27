@@ -17,8 +17,8 @@
 (function (window, angular, undefined) {
     'use strict';
     angular
-    .module('e911App')
-    .controller('e911Ctrl', ['$scope','$window','$routeParams','e911Service', function ($scope,$window,$routeParams,e911Service) { 
+    .module('saqApp')
+    .controller('saqCtrl', ['$scope','$window','$routeParams','saqService', function ($scope,$window,$routeParams,saqService) { 
         if('id' in $routeParams) {
             $scope.id = $routeParams.id;
         }
@@ -51,7 +51,7 @@
             submitDisabled: true
         };
         $scope.e911sign = function() {
-            e911Service.e911sign($scope.id).then(function(data){
+            saqService.e911sign($scope.id).then(function(data){
                 $scope.e911 = { e911: data.data };
                 $window.parent.postMessage(JSON.stringify($scope.e911), "*");
             },function(response) {
