@@ -34,7 +34,7 @@ class saqservices {
      * @param type $encryptbadge
      * @return JSendResponse
      */
-    public function e911sign($encryptbadge) {
+    public function recordSAQuiz($encryptbadge) {
         $config = new UsfConfig();
         $client = new Client([
             // You can set any number of default request options.
@@ -43,7 +43,7 @@ class saqservices {
         try {
             $r = $client->post($config->e911Config['unaService'], [
                 'body' => [
-                    'service' => 'e911sign',
+                    'service' => 'recordSAQuiz',
                     'request' => json_encode([ 'id' => $encryptbadge ])
                 ]
             ]);

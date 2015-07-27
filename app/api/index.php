@@ -32,7 +32,7 @@ try {
         $saqservices = new \USF\SAQ\saqservices();
         $signbody = json_decode($app->request->getBody(), true);
         if (array_key_exists('id', $signbody)) {
-            $resp = $saqservices->e911sign($signbody["id"]);
+            $resp = $saqservices->recordSAQuiz($signbody["id"]);
             $app->response->headers->set('Content-Type', 'application/json');
             $app->response->setBody($resp->encode());
         } else {
