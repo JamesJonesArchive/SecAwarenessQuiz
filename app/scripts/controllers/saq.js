@@ -51,7 +51,7 @@
             submitDisabled: true
         };
         $scope.e911sign = function() {
-            saqService.e911sign($scope.id).then(function(data){
+            saqService.recordSAQuiz($scope.id).then(function(data){
                 $scope.e911 = { e911: data.data };
                 $window.parent.postMessage(JSON.stringify($scope.e911), "*");
             },function(response) {

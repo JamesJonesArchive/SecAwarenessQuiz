@@ -20,8 +20,8 @@
     angular.module('saqApp')
         .factory('saqService', ['$http', function ($http) {
             var service = {
-                e911sign: function (id) {
-                    return $http.post('api/e911sign', {id: id});
+                recordSAQuiz: function (id) {
+                    return $http.post('api/recordSAQuiz', {id: id});
                 }
             };
             return service;

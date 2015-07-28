@@ -29,10 +29,10 @@ describe('Service: saq', function () {
     }));
     
     it('testing saq sigining requests', function () {
-        httpBackend.whenPOST("api/e911sign").respond(
+        httpBackend.whenPOST("api/recordSAQuiz").respond(
             {"e911sign":true}
         );
-        saqService.e911sign('ABCDEFGHIJKLMNOPQRSTUVWXYZ').then(function(response) {
+        saqService.recordSAQuiz('ABCDEFGHIJKLMNOPQRSTUVWXYZ').then(function(response) {
             expect(response.data.e911sign).toEqual(true);
         });
         httpBackend.flush();

@@ -28,7 +28,7 @@ try {
         );
     }
     $app = new \Slim\Slim();
-    $app->post('/e911sign', function() use($app) {
+    $app->post('/recordSAQuiz', function() use($app) {
         $saqservices = new \USF\SAQ\saqservices();
         $signbody = json_decode($app->request->getBody(), true);
         if (array_key_exists('id', $signbody)) {
