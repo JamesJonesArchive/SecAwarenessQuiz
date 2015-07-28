@@ -50,16 +50,16 @@
             fifthButtonText: 'I Acknowledge',
             submitDisabled: true
         };
-        $scope.e911sign = function() {
+        $scope.recordSAQuiz = function() {
             saqService.recordSAQuiz($scope.id).then(function(data){
-                $scope.e911 = { e911: data.data };
-                $window.parent.postMessage(JSON.stringify($scope.e911), "*");
+                $scope.saq = { saq: data.data };
+                $window.parent.postMessage(JSON.stringify($scope.saq), "*");
             },function(response) {
                 var data = response.data,
                     status = response.status;
-                $scope.e911 = { e911: data };
-                alert("Error! E911 Acknowledgement could not be updated"+JSON.stringify(response));
-                $window.parent.postMessage(JSON.stringify($scope.e911), "*");
+                $scope.saq = { saq: data };
+                alert("Error! Security Awareness Quiz could not update answers "+JSON.stringify(response));
+                $window.parent.postMessage(JSON.stringify($scope.saq), "*");
             });
         };
         $scope.acknowledgeClasses = function(type) {
