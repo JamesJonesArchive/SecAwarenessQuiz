@@ -73,7 +73,7 @@
                 if ($scope.quizPassed()) {
                     $scope.message = "Congratulations, you passed the quiz!";
                 } else {
-                    $scope.message = "You must answer all questions correctly pass this quiz.";
+                    $scope.message = "You must answer all questions correctly to pass this quiz.";
                 }
                 
             } else if (action === 2) { // reload the items
