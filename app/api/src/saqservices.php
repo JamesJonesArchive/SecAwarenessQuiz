@@ -74,7 +74,7 @@ class saqservices {
         try {
             $r = $client->post($config->secAwarenessQuizConfig['unaService'], [
                 'body' => [
-                    'service' => 'recordSAQitem',
+                    'service' => 'recordSAQItem',
                     'request' => json_encode([ 'id' => $encryptbadge, 'sa_id' => $sa_id, 'answer' => $answer ])
                 ]
             ]);
