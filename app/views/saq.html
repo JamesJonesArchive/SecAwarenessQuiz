@@ -27,7 +27,7 @@
         <div ng-if="graded" class="saq-text">{{message}}</div>
         <br />
         <div class="text-center">
-            <button ng-if="!graded" type="button" ng-click="submit(1)" class="btn btn-usf btn-lg btn-block">Submit</button>
+            <button ng-if="!graded && quizComplete()" type="button" ng-click="submit(1)" class="btn btn-usf btn-lg btn-block">Submit</button>
             <button ng-if="graded && !quizPassed()" type="button" ng-click="submit(2)" class="btn btn-usf btn-lg btn-block">Try Again</button>
             <button ng-if="graded && quizPassed()" type="button" ng-click="submit(3)" class="btn btn-usf btn-lg btn-block">Next</button>        
         </div>

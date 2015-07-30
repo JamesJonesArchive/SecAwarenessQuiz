@@ -18,7 +18,7 @@
     'use strict';
     angular
     .module('saqApp')
-    .controller('saqCtrl', ['$scope','$window','$location','$routeParams','saqService', function ($scope,$window,$location,$routeParams,saqService) { 
+    .controller('saqCtrl', ['$scope','$window','$location','$routeParams','$q','saqService', function ($scope,$window,$location,$routeParams,$q,saqService) { 
         if('id' in $routeParams) {
             $scope.id = $routeParams.id;
         }                 
@@ -42,7 +42,7 @@
                 return false;
             }
             for (var i=0; i < $scope.items.length; i++) {
-                if ($scope.items[i].selected === 0) {
+                if (typeof $scope.items[i].selected === "undefined") {
                     return false;
                 }
             }
@@ -76,19 +76,16 @@
                 angular.forEach($scope.items,function(item,index) {
                     promises.push(saqService.recordSAQItem($scope.id,item.sa_id,item.selected));
                 });
-                
-                
-                
-                
-                $scope.items[0].answer = 1;
-                $scope.items[1].answer = 2;
-                
-                if ($scope.quizPassed()) {
-                    $scope.message = "Congratulations, you passed the quiz!";
-                } else {
-                    $scope.message = "You must answer all questions correctly to pass this quiz.";
-                }
-                
+                $q.all(promises).then(function(answers) {
+                    console.log(answers);
+                    $scope.items[0].answer = 1;
+                    $scope.items[1].answer = 2;
+                    if ($scope.quizPassed()) {
+                        $scope.message = "Congratulations, you passed the quiz!";
+                    } else {
+                        $scope.message = "You must answer all questions correctly to pass this quiz.";
+                    }
+                });
             } else if (action === 2) { // reload the items
                 $scope.getItems();
             } else { // return to una
