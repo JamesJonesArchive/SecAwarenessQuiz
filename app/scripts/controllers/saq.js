@@ -18,7 +18,7 @@
     'use strict';
     angular
     .module('saqApp')
-    .controller('saqCtrl', ['$scope','$window','$location','$routeParams','saqService', function ($scope,$window,$routeParams,saqService) { 
+    .controller('saqCtrl', ['$scope','$window','$location','$routeParams','saqService', function ($scope,$window,$location,$routeParams,saqService) { 
         if('id' in $routeParams) {
             $scope.id = $routeParams.id;
         }                 
