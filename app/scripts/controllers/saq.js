@@ -38,6 +38,9 @@
         
         // return false if any of the items have not been answered, true otherwise.
         $scope.quizComplete = function() {
+            if (typeof $scope.items === "undefined"){
+                return false;
+            }
             for (var i=0; i < $scope.items.length; i++) {
                 if ($scope.items[i].selected === 0) {
                     return false;
