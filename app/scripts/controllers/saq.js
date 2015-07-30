@@ -51,7 +51,7 @@
         
         // return false if selected answer if not correct, true otherwise.
         $scope.itemCorrect = function(sa_id) {
-            if ($scope.items[sa_id].selected !== $scope.items[sa_id].answer) {
+            if ($scope.items[sa_id].selected.toString() !== $scope.items[sa_id].answer) {
                 return false;
             }
             return true;
@@ -60,7 +60,8 @@
         // return false if quiz contains any incorrect items, true otherwise.
         $scope.quizPassed = function() {
             for (var i=0; i < $scope.items.length; i++) {
-                if ($scope.items[i].selected !== $scope.items[i].answer) {
+                if ($scope.items[i].selected.toString() !== $scope.items[i].answer) {
+                    console.log({'sa_id': $scope.items[i]['sa_id'], 'selected': $scope.items[i].selected,'answer': $scope.items[i].answer});
                     return false;
                 }
             }
