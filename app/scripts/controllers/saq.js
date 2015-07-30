@@ -61,7 +61,6 @@
         $scope.quizPassed = function() {
             for (var i=0; i < $scope.items.length; i++) {
                 if ($scope.items[i].selected.toString() !== $scope.items[i].answer) {
-                    console.log({'sa_id': $scope.items[i]['sa_id'], 'selected': $scope.items[i].selected,'answer': $scope.items[i].answer});
                     return false;
                 }
             }

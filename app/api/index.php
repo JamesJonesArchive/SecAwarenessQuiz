@@ -44,7 +44,6 @@ try {
         } else {
             $app->response->headers->set('Content-Type', 'application/json');
             $app->response->setBody((new \JSend\JSendResponse('fail', [
-                'e911sign' => false,
                 'requestBody' => $requestbody
             ]))->encode());
         }
@@ -59,7 +58,6 @@ try {
         } else {
             $app->response->headers->set('Content-Type', 'application/json');
             $app->response->setBody((new \JSend\JSendResponse('fail', [
-                'e911sign' => false,
                 'requestBody' => $requestbody
             ]))->encode());
         }
