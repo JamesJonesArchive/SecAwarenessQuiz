@@ -1,0 +1,40 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : July 29 2015
+    Author     : jack
+*/
+.btn-usf {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.btn-usf:hover, .btn-usf:focus, .btn-usf:active, .btn-usf.active, .open > .dropdown-toggle.btn-usf {
+    background: #DFD4A3;
+}
+
+.btn-usf:active, .btn-usf.active {
+    background: #EFE4B3;
+    box-shadow: none;
+}
+
+div.row {
+    margin: 10px;
+}
+
+.saq-text {
+    font-size: large;
+}
+
+.saq-info {
+    font-size: large;
+    color: #00573C;
+}
+.saq-warn {
+    font-size: large;
+    color: #FF0000;
+}
