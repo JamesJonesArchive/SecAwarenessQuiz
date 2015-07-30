@@ -70,16 +70,20 @@
         // process submits
         $scope.submit = function(action) {
             if (action === 1) { // record supplied answers and get correct answers with explanations
-                console.log("HERE");
                 $scope.graded = true;
-                var promises = [];
+                var promisemap = {};
                 angular.forEach($scope.items,function(item,index) {
-                    promises.push(saqService.recordSAQItem($scope.id,item.sa_id,item.selected));
+                    promisemap[item.sa_id] = saqService.recordSAQItem($scope.id,item.sa_id,item.selected);
                 });
-                $q.all(promises).then(function(answers) {
-                    console.log(answers);
-                    $scope.items[0].answer = 1;
-                    $scope.items[1].answer = 2;
+                $q.all(promisemap).then(function(answers) {
+                    for (var i=0; i < $scope.items.length; i++) {
+                        angular.forEach(answers,function(answer,key) {
+                            if($scope.items[i]['sa_id'] === key) {
+                                $scope.items[i].answer = answer.data.data.answer;
+                                $scope.items[i].explanation = answer.data.data.explanation;
+                            }
+                        });
+                    }
                     if ($scope.quizPassed()) {
                         $scope.message = "Congratulations, you passed the quiz!";
                     } else {
@@ -88,8 +92,8 @@
                 });
             } else if (action === 2) { // reload the items
                 $scope.getItems();
-            } else { // return to una
-                
+            } else { // return to una by triggering the close of the iFrame
+                $window.parent.postMessage(JSON.stringify({saq: true}), "*");
             }
         };
                 
