@@ -18,146 +18,81 @@
     'use strict';
     angular
     .module('saqApp')
-    .controller('saqCtrl', ['$scope','$window','$routeParams','saqService', function ($scope,$window,$routeParams,saqService) { 
-        $scope.build = function() {
-            if('id' in $routeParams) {
-                $scope.id = $routeParams.id;
-                $scope.getSAQ();
-                // saqService.getSAQ();
-            }                 
-        };
-        // alert(JSON.stringify($routeParams));
-        $scope.sections = {
-            firstTop: ['panel', 'panel-default'],
-            firstBottom: ['panel-body'],
-            firstDisabled: false,
-            firstAcknowledged: false,
-            firstButtonText: 'I Acknowledge',
-            secondTop: ['well'],
-            secondBottom: [],
-            secondDisabled: true,
-            secondAcknowledged: false,
-            secondButtonText: 'I Acknowledge',
-            thirdTop: ['well'],
-            thirdBottom: [],
-            thirdDisabled: true,
-            thirdAcknowledged: false,
-            thirdButtonText: 'I Acknowledge',
-            fourthTop: ['well'],
-            fourthBottom: [],
-            fourthDisabled: true,
-            fourthAcknowledged: false,
-            fourthButtonText: 'I Acknowledge',
-            fifthTop: ['well'],
-            fifthBottom: [],
-            fifthDisabled: true,
-            fifthAcknowledged: false,
-            fifthButtonText: 'I Acknowledge',
-            submitDisabled: true
-        };
-        $scope.getSAQ = function() {
-            alert($scope.id);
+    .controller('saqCtrl', ['$scope','$window','$location','$routeParams','saqService', function ($scope,$window,$routeParams,saqService) { 
+        if('id' in $routeParams) {
+            $scope.id = $routeParams.id;
+        }                 
+        // load a set of quiz items
+        $scope.getItems = function() {
+            $scope.graded = false;
+            $scope.message = "";
             saqService.getSAQ($scope.id).then(function(data){
-                $scope.saq = { saq: data.data };
-                $scope.questions = data.data.data.questions.data;
-                // console.log(data.data.data.questions.data);
-                // $window.parent.postMessage(JSON.stringify($scope.saq), "*");
+                $scope.items = data.data.data.questions.data;
             },function(response) {
                 var data = response.data,
                     status = response.status;
-                $scope.saq = { saq: data };
                 alert("Error! Security Awareness Quiz could not retrieve questions "+JSON.stringify(response));
-                // $window.parent.postMessage(JSON.stringify($scope.saq), "*");
             });
         };
-        // $scope.getSAQ();
-        $scope.recordSAQuiz = function() {
-            saqService.recordSAQuiz($scope.id).then(function(data){
-                $scope.saq = { saq: data.data };
-                $window.parent.postMessage(JSON.stringify($scope.saq), "*");
-            },function(response) {
-                var data = response.data,
-                    status = response.status;
-                $scope.saq = { saq: data };
-                alert("Error! Security Awareness Quiz could not update answers "+JSON.stringify(response));
-                $window.parent.postMessage(JSON.stringify($scope.saq), "*");
-            });
+        $scope.getItems();
+        
+        // return false if any of the items have not been answered, true otherwise.
+        $scope.quizComplete = function() {
+            for (var i=0; i < $scope.items.length; i++) {
+                if ($scope.items[i].selected === 0) {
+                    return false;
+                }
+            }
+            return true;
         };
-        $scope.acknowledgeClasses = function(type) {
-            switch(type) {
-                case "first":
-                    $scope.sections.firstTop.pop('panel');
-                    $scope.sections.firstTop.pop('panel-default');
-                    $scope.sections.firstTop.push('well');
-                    $scope.sections.firstBottom.pop('panel-body');
-                    $scope.sections.firstDisabled = true;
-                    $scope.sections.firstAcknowledged = true;
-                    $scope.sections.firstButtonText = 'Acknowledged';
-                    $scope.sections.secondTop.pop('well');
-                    $scope.sections.secondTop.push('panel');
-                    $scope.sections.secondTop.push('panel-default');
-                    $scope.sections.secondBottom.push('panel-body');
-                    $scope.sections.secondDisabled = false;
-                    break;
-                case "second":
-                    $scope.sections.secondTop.pop('panel');
-                    $scope.sections.secondTop.pop('panel-default');
-                    $scope.sections.secondTop.push('well');
-                    $scope.sections.secondBottom.pop('panel-body');
-                    $scope.sections.secondDisabled = true;
-                    $scope.sections.secondAcknowledged = true;
-                    $scope.sections.secondButtonText = 'Acknowledged';
-                    
-                    $scope.sections.thirdTop.pop('well');
-                    $scope.sections.thirdTop.push('panel');
-                    $scope.sections.thirdTop.push('panel-default');
-                    $scope.sections.thirdBottom.push('panel-body');
-                    $scope.sections.thirdDisabled = false;
-                    break;
-                case "third":
-                    $scope.sections.thirdTop.pop('panel');
-                    $scope.sections.thirdTop.pop('panel-default');
-                    $scope.sections.thirdTop.push('well');
-                    $scope.sections.thirdBottom.pop('panel-body');
-                    $scope.sections.thirdDisabled = true;
-                    $scope.sections.thirdAcknowledged = true;
-                    $scope.sections.thirdButtonText = 'Acknowledged';
-                    
-                    $scope.sections.fourthTop.pop('well');
-                    $scope.sections.fourthTop.push('panel');
-                    $scope.sections.fourthTop.push('panel-default');
-                    $scope.sections.fourthBottom.push('panel-body');
-                    $scope.sections.fourthDisabled = false;
-                    break;
-                case "fourth":
-                    $scope.sections.fourthTop.pop('panel');
-                    $scope.sections.fourthTop.pop('panel-default');
-                    $scope.sections.fourthTop.push('well');
-                    $scope.sections.fourthBottom.pop('panel-body');
-                    $scope.sections.fourthDisabled = true;
-                    $scope.sections.fourthAcknowledged = true;
-                    $scope.sections.fourthButtonText = 'Acknowledged';
-                    
-                    $scope.sections.fifthTop.pop('well');
-                    $scope.sections.fifthTop.push('panel');
-                    $scope.sections.fifthTop.push('panel-default');
-                    $scope.sections.fifthBottom.push('panel-body');
-                    $scope.sections.fifthDisabled = false;
-                    break;
-                case "fifth":
-                    $scope.sections.fifthTop.pop('panel');
-                    $scope.sections.fifthTop.pop('panel-default');
-                    $scope.sections.fifthTop.push('well');
-                    $scope.sections.fifthBottom.pop('panel-body');
-                    $scope.sections.fifthDisabled = true;
-                    $scope.sections.fifthAcknowledged = true;
-                    $scope.sections.fifthButtonText = 'Acknowledged';
-                    
-                    $scope.sections.submitDisabled = false;
-                    break;
+        
+        // return false if selected answer if not correct, true otherwise.
+        $scope.itemCorrect = function(sa_id) {
+            if ($scope.items[sa_id].selected !== $scope.items[sa_id].answer) {
+                return false;
+            }
+            return true;
+        };
+        
+        // return false if quiz contains any incorrect items, true otherwise.
+        $scope.quizPassed = function() {
+            for (var i=0; i < $scope.items.length; i++) {
+                if ($scope.items[i].selected !== $scope.items[i].answer) {
+                    return false;
+                }
+            }
+            return true;
+        };
+        
+        // process submits
+        $scope.submit = function(action) {
+            if (action === 1) { // record supplied answers and get correct answers with explanations
+                console.log("HERE");
+                $scope.graded = true;
+                var promises = [];
+                angular.forEach($scope.items,function(item,index) {
+                    promises.push(saqService.recordSAQItem($scope.id,item.sa_id,item.selected));
+                });
+                
+                
+                
+                
+                $scope.items[0].answer = 1;
+                $scope.items[1].answer = 2;
+                
+                if ($scope.quizPassed()) {
+                    $scope.message = "Congratulations, you passed the quiz!";
+                } else {
+                    $scope.message = "You must answer all questions correctly to pass this quiz.";
+                }
+                
+            } else if (action === 2) { // reload the items
+                $scope.getItems();
+            } else { // return to una
+                
             }
         };
-        $scope.build();
+                
     }]);
     
 })(window, window.angular);
