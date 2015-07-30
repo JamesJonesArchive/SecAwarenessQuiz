@@ -27,18 +27,40 @@ try {
         . ' Ensure slim/slim is in composer.json and run `make update --directory app/api`'
         );
     }
+    if (!class_exists('\\USF\\SAQ\\saqservices')) {
+        throw new \Exception(
+        'Missing saqservices from Composer dependencies.'
+        . ' Ensure usf/saq/saqservices is in composer.json and run `make update --directory app/api`'
+        );
+    }
     $app = new \Slim\Slim();
-    $app->post('/recordSAQuiz', function() use($app) {
+    $app->post('/getSAQ', function() use($app) {
         $saqservices = new \USF\SAQ\saqservices();
-        $signbody = json_decode($app->request->getBody(), true);
-        if (array_key_exists('id', $signbody)) {
-            $resp = $saqservices->recordSAQuiz($signbody["id"]);
+        $requestbody = json_decode($app->request->getBody(), true);
+        if (array_key_exists('id', $requestbody)) {
+            $resp = $saqservices->getSAQ($requestbody["id"]);
             $app->response->headers->set('Content-Type', 'application/json');
             $app->response->setBody($resp->encode());
         } else {
             $app->response->headers->set('Content-Type', 'application/json');
             $app->response->setBody((new \JSend\JSendResponse('fail', [
-                'e911sign' => false
+                'e911sign' => false,
+                'requestBody' => $requestbody
+            ]))->encode());
+        }
+    });
+    $app->post('/recordSAQItem', function() use($app) {
+        $saqservices = new \USF\SAQ\saqservices();
+        $requestbody = json_decode($app->request->getBody(), true);
+        if (array_key_exists('id', $requestbody)) {
+            $resp = $saqservices->recordSAQitem($requestbody["id"], $requestbody["sa_id"], $requestbody["answer"]);
+            $app->response->headers->set('Content-Type', 'application/json');
+            $app->response->setBody($resp->encode());
+        } else {
+            $app->response->headers->set('Content-Type', 'application/json');
+            $app->response->setBody((new \JSend\JSendResponse('fail', [
+                'e911sign' => false,
+                'requestBody' => $requestbody
             ]))->encode());
         }
     });

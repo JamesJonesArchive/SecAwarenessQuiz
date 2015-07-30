@@ -19,9 +19,14 @@
     angular
     .module('saqApp')
     .controller('saqCtrl', ['$scope','$window','$routeParams','saqService', function ($scope,$window,$routeParams,saqService) { 
-        if('id' in $routeParams) {
-            $scope.id = $routeParams.id;
-        }
+        $scope.build = function() {
+            if('id' in $routeParams) {
+                $scope.id = $routeParams.id;
+                $scope.getSAQ();
+                // saqService.getSAQ();
+            }                 
+        };
+        // alert(JSON.stringify($routeParams));
         $scope.sections = {
             firstTop: ['panel', 'panel-default'],
             firstBottom: ['panel-body'],
@@ -50,6 +55,22 @@
             fifthButtonText: 'I Acknowledge',
             submitDisabled: true
         };
+        $scope.getSAQ = function() {
+            alert($scope.id);
+            saqService.getSAQ($scope.id).then(function(data){
+                $scope.saq = { saq: data.data };
+                $scope.questions = data.data.data.questions.data;
+                // console.log(data.data.data.questions.data);
+                // $window.parent.postMessage(JSON.stringify($scope.saq), "*");
+            },function(response) {
+                var data = response.data,
+                    status = response.status;
+                $scope.saq = { saq: data };
+                alert("Error! Security Awareness Quiz could not retrieve questions "+JSON.stringify(response));
+                // $window.parent.postMessage(JSON.stringify($scope.saq), "*");
+            });
+        };
+        // $scope.getSAQ();
         $scope.recordSAQuiz = function() {
             saqService.recordSAQuiz($scope.id).then(function(data){
                 $scope.saq = { saq: data.data };
@@ -136,6 +157,7 @@
                     break;
             }
         };
+        $scope.build();
     }]);
     
 })(window, window.angular);

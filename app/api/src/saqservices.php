@@ -29,6 +29,67 @@ use \GuzzleHttp\Client;
  */
 class saqservices {
     /**
+     * Get's a list of questions
+     * 
+     * @param type $encryptbadge
+     * @return JSendResponse
+     */
+    public function getSAQ($encryptbadge) {
+        $config = new UsfConfig();
+        $client = new Client([
+            // You can set any number of default request options.
+            'timeout'  => 2.0,
+        ]);
+        try {
+            $r = $client->post($config->secAwarenessQuizConfig['unaService'], [
+                'body' => [
+                    'service' => 'getSAQ',
+                    'request' => json_encode([ 'id' => $encryptbadge, 'count' => 5 ])
+                ]
+            ]);
+            $resp = json_decode((string) $r->getBody(),true);
+            return new JSendResponse('success', $resp);                
+        } catch (Exception $e) {
+            return new JSendResponse('fail', [
+                'request' => $e->getRequest(),
+                'response' => ($e->hasResponse())?$e->getResponse():"",
+                'message' => $e->getMessage()
+            ]); 
+        }
+    }
+    /**
+     * Records user's answer response to a quiz question
+     * 
+     * @param type $encryptbadge
+     * @param type $sa_id
+     * @param type $answer
+     * @return JSendResponse
+     */
+    public function recordSAQitem($encryptbadge,$sa_id,$answer) {
+        $config = new UsfConfig();
+        $client = new Client([
+            // You can set any number of default request options.
+            'timeout'  => 2.0,
+        ]);
+        try {
+            $r = $client->post($config->secAwarenessQuizConfig['unaService'], [
+                'body' => [
+                    'service' => 'recordSAQitem',
+                    'request' => json_encode([ 'id' => $encryptbadge, 'sa_id' => $sa_id, 'answer' => $answer ])
+                ]
+            ]);
+            $resp = json_decode((string) $r->getBody(),true);
+            return new JSendResponse('success', $resp);                
+        } catch (Exception $e) {
+            return new JSendResponse('fail', [
+                'request' => $e->getRequest(),
+                'response' => ($e->hasResponse())?$e->getResponse():"",
+                'message' => $e->getMessage()
+            ]); 
+        }
+    }
+    
+    /**
      * Signs the disclosure by badge
      * 
      * @param type $encryptbadge
