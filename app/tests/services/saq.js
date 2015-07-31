@@ -29,11 +29,11 @@ describe('Service: saq', function () {
     }));
     
     it('testing saq sigining requests', function () {
-        httpBackend.whenPOST("api/recordSAQuiz").respond(
-            {"e911sign":true}
+        httpBackend.whenPOST("api/recordSAQItem").respond(
+            {"status":"success","data":{"status":"success","answer":"1","explanation":"Links in your email can send you to scam websites that try to steal your password or other personal information."}}
         );
-        saqService.recordSAQuiz('ABCDEFGHIJKLMNOPQRSTUVWXYZ').then(function(response) {
-            expect(response.data.e911sign).toEqual(true);
+        saqService.recordSAQItem('ABCDEFGHIJKLMNOPQRSTUVWXYZ',"11",1).then(function(response) {
+            expect(response.data.status).toEqual("success");
         });
         httpBackend.flush();
     });

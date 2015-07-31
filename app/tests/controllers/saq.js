@@ -22,6 +22,7 @@ describe('Controller: saqCtrl', function () {
 
     var saqCtrl,
         saqService,
+        filter,
         scope;
         
     beforeEach(function() {
@@ -29,11 +30,61 @@ describe('Controller: saqCtrl', function () {
             $provide.factory('saqService', function() {
                 var service;
                 inject(function($q) {
-                    service = {                        
-                        e911sign: function() {
+                    service = {     
+                        getSAQ: function() {
                             var defer = $q.defer(),
                                 data = {
-                                    e911sign: true
+                                    "data": {
+                                        "status":"success",
+                                        "data":{
+                                            "questions":{
+                                                "status":"success",
+                                                "data":[
+                                                    {
+                                                        "sa_id":"27",
+                                                        "question":"Antivirus Software is not important if you have a MAC because MACS can't get viruses.",
+                                                        "labels":"True|False"
+                                                    },
+                                                    {
+                                                        "sa_id":"41",
+                                                        "question":"How I use my computer affects others.",
+                                                        "labels":"True|False"
+                                                    },
+                                                    {
+                                                        "sa_id":"3",
+                                                        "question":"You should have a different password on every system.",
+                                                        "labels":"True|False"
+                                                    },
+                                                    {
+                                                        "sa_id":"43",
+                                                        "question":"Backing up your data is an outdated concept and is unimportant.",
+                                                        "labels":"True|False"
+                                                    },
+                                                    {
+                                                        "sa_id":"31",
+                                                        "question":"My email privacy is not protected by law like postal mail.",
+                                                        "labels":"True|False"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                };                            
+                            defer.resolve(data);
+                            
+                            return defer.promise;
+                        },
+                        recordSAQItem: function() {
+                            var defer = $q.defer(),
+                                data = {
+                                    data: {
+                                        "status":"success",
+                                        "data":{
+                                            "status":"success",
+                                            "answer":"1",
+                                            "explanation":"Links in your email can send you to scam websites that try to steal your password or other personal information."
+                                        }
+                                    }
                                 };                            
                             defer.resolve(data);
                             
@@ -47,14 +98,15 @@ describe('Controller: saqCtrl', function () {
     });        
     
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($controller, $rootScope, $q, _saqService_) {
+    beforeEach(inject(function ($controller, $rootScope, $q, _$filter_, _saqService_) {
         $rootScope.id = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         scope = $rootScope.$new();
+        filter = _$filter_;
         saqService = _saqService_;
         saqCtrl = $controller('saqCtrl', {
             $scope: scope,
             $q: $q,
-            e911Service: e911Service
+            saqService: saqService
         });
         scope.$digest();
     }));
@@ -62,11 +114,15 @@ describe('Controller: saqCtrl', function () {
     describe('setup the rootScope', function () {
         it('has correct mock values', function() {
             expect(scope.id).toBe('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
-            scope.e911sign();
-            // expect(scope.e911.e911sign).to.eventually.equal(true);
+            expect(scope.items.length).toBe(5);
         });               
-        it('can sign', function() {   
-            // expect(scope.e911.e911sign).toBe(true);
+        it('can answer', function() {   
+            for (var i=0; i < scope.items.length; i++) {
+                scope.items[i].selected = 1;
+            }
+            scope.submit(1);
+            expect(filter('filter')(scope.items, {sa_id: "31"}).length).toBe(1);
+            expect(scope.items[0].sa_id).toBe("27");
         });
     });
 });
