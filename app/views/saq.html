@@ -4,21 +4,21 @@
             <h2>Cyber Security Awareness Quiz</h2>
             <br />
         </div>
-        <div class="saq-text">
+	<div>
             In light of increased cyber security threats, which often include phishing attempts against USF students, faculty and staff, you are now required to take and pass a security awareness quiz.
             If you encounter any problems with this quiz or have any questions, please contact USF Information Technology ("USF IT") at <a href="mailto:help@usf.edu">help@usf.edu</a>.
         </div>
         <br />
     </div>
-    <div class="row" ng-repeat="item in items track by item.sa_id">
-        <br />
-        <div class="saq-text">{{$index + 1}}. {{item.question}}</div>
-        <br />
-        <div ng-show="graded && itemCorrect($index)" class="saq-info">{{item.labels.split('|')[item.answer-1]}}. {{item.explanation}}</div>
-        <div ng-show="graded && !itemCorrect($index)" class="saq-warn">{{item.labels.split('|')[item.answer-1]}}. {{item.explanation}}</div>
-        <div class="text-center">
-            <div ng-show="!graded" class="btn-group">
-                <button type="button" ng-repeat="label in item.labels.split('|')" class="btn btn-lg btn-usf" ng-model="item.selected" btn-radio="{{$index + 1}}">{{label}}</button>
+    <div class="panel panel-default">
+	<div class="row" ng-repeat="item in items track by item.sa_id">
+	    <h4>{{$index + 1}}. {{item.question}}</h4>
+	    <div ng-show="graded && itemCorrect($index)" class="alert alert-success"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
+	    <div ng-show="graded && !itemCorrect($index)" class="alert alert-danger"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
+	    <div class="text-center">
+		<div ng-show="!graded" class="btn-group">
+		    <button type="button" ng-repeat="label in item.labels.split('|')" class="btn btn-lg btn-usf" ng-model="item.selected" btn-radio="{{$index + 1}}">{{label}}</button>
+		</div>
             </div>
         </div>
     </div>
