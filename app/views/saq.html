@@ -13,8 +13,8 @@
             <h4>{{$index + 1}}. {{item.question}}</h4>
             <div ng-if="graded && itemCorrect($index)" class="alert alert-success"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
             <div ng-if="graded && !itemCorrect($index)" class="alert alert-danger"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
-            <div class="text-center">
-                <div ng-if="!graded" class="btn-group">
+            <div ng-if="!graded" class="text-center">
+                <div class="btn-group">
                     <button type="button" ng-repeat="label in item.labels.split('|')" class="btn btn-lg btn-usf" ng-model="item.selected" btn-radio="{{$index + 1}}">{{label}}</button>
                 </div>
             </div>
