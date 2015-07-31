@@ -1,0 +1,4 @@
+# Sample Security Awareness Quiz configuration
+secAwarenessQuizConfig:
+    unaService: https://somehost.com/una/
+---

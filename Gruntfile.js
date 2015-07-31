@@ -423,7 +423,7 @@ module.exports = function (grunt) {
             cwd: '<%= yeoman.app %>',
             dest: '<%= yeoman.dist %>',
             src: [
-              'api/{{config,src,vendor,components}/**,index.php,e911services.php,.htaccess}',
+              'api/{{config,src,vendor,components}/**,index.php,saqservices.php,.htaccess}',
               '*.{ico,png,txt}',
               '.htaccess',
               '*.html',

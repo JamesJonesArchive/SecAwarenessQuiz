@@ -23,7 +23,7 @@ use \USF\IdM\UsfConfig;
 use \GuzzleHttp\Client;
 
 /**
- * Description of e911services
+ * Description of saqservices
  *
  * @author james
  */
@@ -89,32 +89,4 @@ class saqservices {
         }
     }
     
-    /**
-     * Signs the disclosure by badge
-     * 
-     * @param type $encryptbadge
-     * @return JSendResponse
-     */
-    public function recordSAQuiz($encryptbadge) {
-        $config = new UsfConfig();
-        $client = new Client([
-            // You can set any number of default request options.
-            'timeout'  => 2.0,
-        ]);
-        try {
-            $r = $client->post($config->e911Config['unaService'], [
-                'body' => [
-                    'service' => 'recordSAQuiz',
-                    'request' => json_encode([ 'id' => $encryptbadge ])
-                ]
-            ]);
-            return new JSendResponse('success', json_decode((string) $r->getBody(),true));        
-        } catch (Exception $e) {
-            return new JSendResponse('fail', [
-                'request' => $e->getRequest(),
-                'response' => ($e->hasResponse())?$e->getResponse():"",
-                'message' => $e->getMessage()
-            ]); 
-        }
-    }
 }
