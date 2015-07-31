@@ -1,31 +1,27 @@
 <div class="container">
     <div class="row">
         <div class="text-center">
-            <h2>Cyber Security Awareness Quiz</h2>
-            <br />
+            <h3>Cyber Security Awareness Quiz</h3>
         </div>
-	<div>
+        <div>
             In light of increased cyber security threats, which often include phishing attempts against USF students, faculty and staff, you are now required to take and pass a security awareness quiz.
             If you encounter any problems with this quiz or have any questions, please contact USF Information Technology ("USF IT") at <a href="mailto:help@usf.edu">help@usf.edu</a>.
         </div>
-        <br />
     </div>
     <div class="panel panel-default">
-	<div class="row" ng-repeat="item in items track by item.sa_id">
-	    <h4>{{$index + 1}}. {{item.question}}</h4>
-	    <div ng-show="graded && itemCorrect($index)" class="alert alert-success"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
-	    <div ng-show="graded && !itemCorrect($index)" class="alert alert-danger"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
-	    <div class="text-center">
-		<div ng-show="!graded" class="btn-group">
-		    <button type="button" ng-repeat="label in item.labels.split('|')" class="btn btn-lg btn-usf" ng-model="item.selected" btn-radio="{{$index + 1}}">{{label}}</button>
-		</div>
+        <div class="row" ng-repeat="item in items track by item.sa_id">
+            <h4>{{$index + 1}}. {{item.question}}</h4>
+            <div ng-if="graded && itemCorrect($index)" class="alert alert-success"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
+            <div ng-if="graded && !itemCorrect($index)" class="alert alert-danger"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
+            <div class="text-center">
+                <div ng-if="!graded" class="btn-group">
+                    <button type="button" ng-repeat="label in item.labels.split('|')" class="btn btn-lg btn-usf" ng-model="item.selected" btn-radio="{{$index + 1}}">{{label}}</button>
+                </div>
             </div>
         </div>
     </div>
-    <div ng-show="quizComplete()" class="row">
-        <br />
+    <div ng-if="quizComplete()" class="row">
         <div ng-if="graded" class="saq-text">{{message}}</div>
-        <br />
         <div class="text-center">
             <button ng-if="!graded && quizComplete()" type="button" ng-click="submit(1)" class="btn btn-usf btn-lg btn-block">Submit</button>
             <button ng-if="graded && !quizPassed()" type="button" ng-click="submit(2)" class="btn btn-usf btn-lg btn-block">Try Again</button>
