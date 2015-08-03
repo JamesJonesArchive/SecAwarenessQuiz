@@ -8,14 +8,16 @@
             If you encounter any problems with this quiz or have any questions, please contact USF Information Technology ("USF IT") at <a href="mailto:help@usf.edu">help@usf.edu</a>.
         </div>
     </div>
-    <div class="panel panel-default">
-        <div class="row" ng-repeat="item in items track by item.sa_id">
-            <h4>{{$index + 1}}. {{item.question}}</h4>
-            <div ng-if="graded && itemCorrect($index)" class="alert alert-success"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
-            <div ng-if="graded && !itemCorrect($index)" class="alert alert-danger"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
-            <div ng-if="!graded" class="text-center">
-                <div class="btn-group">
-                    <button type="button" ng-repeat="label in item.labels.split('|')" class="btn btn-lg btn-usf" ng-model="item.selected" btn-radio="{{$index + 1}}">{{label}}</button>
+    <div class="well well-sm">
+        <div class="row panel panel-default" ng-repeat="item in items track by item.sa_id">
+            <div class="panel-body"
+                <h4>{{item.question}}</h4>
+                <div ng-if="graded && itemCorrect($index)" class="alert alert-success"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
+                <div ng-if="graded && !itemCorrect($index)" class="alert alert-danger"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
+                <div ng-if="!graded" class="pull-right">
+                    <div class="btn-group" role="group" aria-label="select an answer">
+                        <button type="button" ng-repeat="label in item.labels.split('|')" class="btn btn-usf" ng-model="item.selected" btn-radio="{{$index + 1}}">{{label}}</button>
+                    </div>
                 </div>
             </div>
         </div>
