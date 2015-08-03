@@ -10,7 +10,7 @@
     </div>
     <div class="well well-sm">
         <div class="row panel panel-default" ng-repeat="item in items track by item.sa_id">
-            <div class="panel-body"
+            <div class="panel-body">
                 <h4>{{item.question}}</h4>
                 <div ng-if="graded && itemCorrect($index)" class="alert alert-success"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
                 <div ng-if="graded && !itemCorrect($index)" class="alert alert-danger"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
