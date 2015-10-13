@@ -3,8 +3,14 @@
   "version": "0.0.1",
   "description": "Security Awareness Quiz",
   "authors": [
-    { "name": "James Jones", "email": "james@mail.usf.edu" },
-    { "name": "Jack Drobitz", "email": "jack@mail.usf.edu" }
+    {
+      "name": "James Jones",
+      "email": "james@mail.usf.edu"
+    },
+    {
+      "name": "Jack Drobitz",
+      "email": "jack@mail.usf.edu"
+    }
   ],
   "repository": {
     "type": "git",
@@ -34,6 +40,7 @@
   },
   "appPath": "app",
   "resolutions": {
-    "angular": "1.3.11"
+    "angular": "1.3.11",
+    "angular-cookies": "~1.3.11"
   }
 }
