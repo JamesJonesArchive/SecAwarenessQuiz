@@ -38,7 +38,21 @@ try {
         $saqservices = new \USF\SAQ\saqservices();
         $requestbody = json_decode($app->request->getBody(), true);
         if (array_key_exists('id', $requestbody)) {
-            $resp = $saqservices->getSAQ($requestbody["id"]);
+            $resp = $saqservices->getSAQ($requestbody["id"], $requestbody["session_ts"], $requestbody["quiz_ts"]);
+            $app->response->headers->set('Content-Type', 'application/json');
+            $app->response->setBody($resp->encode());
+        } else {
+            $app->response->headers->set('Content-Type', 'application/json');
+            $app->response->setBody((new \JSend\JSendResponse('fail', [
+                'requestBody' => $requestbody
+            ]))->encode());
+        }
+    });
+    $app->post('/updateSAQ', function() use($app) {
+        $saqservices = new \USF\SAQ\saqservices();
+        $requestbody = json_decode($app->request->getBody(), true);
+        if (array_key_exists('id', $requestbody)) {
+            $resp = $saqservices->updateSAQ($requestbody["id"], $requestbody["session_ts"], $requestbody["quiz_ts"], $requestbody["correct"]);
             $app->response->headers->set('Content-Type', 'application/json');
             $app->response->setBody($resp->encode());
         } else {
@@ -52,7 +66,7 @@ try {
         $saqservices = new \USF\SAQ\saqservices();
         $requestbody = json_decode($app->request->getBody(), true);
         if (array_key_exists('id', $requestbody)) {
-            $resp = $saqservices->recordSAQitem($requestbody["id"], $requestbody["sa_id"], $requestbody["answer"]);
+            $resp = $saqservices->recordSAQitem($requestbody["id"], $requestbody["quiz_ts"], $requestbody["sa_id"], $requestbody["answer"]);
             $app->response->headers->set('Content-Type', 'application/json');
             $app->response->setBody($resp->encode());
         } else {

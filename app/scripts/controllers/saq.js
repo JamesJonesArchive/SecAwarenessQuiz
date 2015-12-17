@@ -18,15 +18,19 @@
     'use strict';
     angular
     .module('saqApp')
-    .controller('saqCtrl', ['$scope','$window','$location','$routeParams','$q','saqService', function ($scope,$window,$location,$routeParams,$q,saqService) { 
+    .controller('saqCtrl', ['$scope','$rootScope','$window','$location','$routeParams','$q','saqService', function ($scope,$rootScope,$window,$location,$routeParams,$q,saqService) { 
         if('id' in $routeParams) {
             $scope.id = $routeParams.id;
-        }                 
+            // create session identifier - timestamp
+            $scope.session_ts = (new Date()).getTime() / 1000;
+        }
         // load a set of quiz items
         $scope.getItems = function() {
+            // create quiz identifier - timestamp
+            $scope.quiz_ts = (new Date()).getTime() / 1000;
             $scope.graded = false;
             $scope.message = "";
-            saqService.getSAQ($scope.id).then(function(data){
+            saqService.getSAQ($scope.id, $scope.session_ts, $scope.quiz_ts).then(function(data){
                 $scope.items = data.data.data.questions.data;
             },function(response) {
                 var data = response.data,
@@ -58,22 +62,41 @@
         };
         
         // return false if quiz contains any incorrect items, true otherwise.
-        $scope.quizPassed = function() {
+        $scope.quizPassed = function() {                  
             for (var i=0; i < $scope.items.length; i++) {
                 if ($scope.items[i].selected.toString() !== $scope.items[i].answer) {
                     return false;
                 }
             }
             return true;
+        }
+        
+        // update result and correct count in database
+        $scope.quizUpdate = function() {
+            var correct = 0;                     
+            for (var i=0; i < $scope.items.length; i++) {
+                if ($scope.items[i].selected.toString() === $scope.items[i].answer) {
+                    correct++;
+                }
+            }
+            // update database and return pass/fail
+            saqService.updateSAQ($scope.id, $scope.session_ts, $scope.quiz_ts, correct).then(function(data){
+                $scope.result = data.data.data.result;
+            },function(response) {
+                var data = response.data,
+                    status = response.status;
+                alert("Error! Security Awareness Quiz could not be completed "+JSON.stringify(response));
+            });
         };
         
         // process submits
         $scope.submit = function(action) {
+            $rootScope.loading = true;
             if (action === 1) { // record supplied answers and get correct answers with explanations
                 $scope.graded = true;
                 var promisemap = {};
                 angular.forEach($scope.items,function(item,index) {
-                    promisemap[item.sa_id] = saqService.recordSAQItem($scope.id,item.sa_id,item.selected);
+                    promisemap[item.sa_id] = saqService.recordSAQItem($scope.id,$scope.quiz_ts,item.sa_id,item.selected);
                 });
                 $q.all(promisemap).then(function(answers) {
                     for (var i=0; i < $scope.items.length; i++) {
@@ -83,16 +106,22 @@
                                 $scope.items[i].explanation = answer.data.data.explanation;
                             }
                         });
-                    }
+                    }                   
                     if ($scope.quizPassed()) {
                         $scope.message = "Congratulations, you passed the quiz!";
                     } else {
                         $scope.message = "You must answer all questions correctly to pass this quiz.";
                     }
+                    // either way, update the quiz record in db
+                    $scope.quizUpdate();
+                    $rootScope.loading = false;
                 });
+                
             } else if (action === 2) { // reload the items
                 $scope.getItems();
+                $rootScope.loading = false;
             } else { // return to una by triggering the close of the iFrame
+                $rootScope.loading = false;
                 $window.parent.postMessage(JSON.stringify({saq: true}), "*");
             }
         };
