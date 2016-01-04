@@ -34,7 +34,7 @@ class saqservices {
      * @param type $encryptbadge
      * @return JSendResponse
      */
-    public function getSAQ($encryptbadge) {
+    public function getSAQ($encryptbadge, $session_ts, $quiz_ts) {
         $config = new UsfConfig();
         $client = new Client([
             // You can set any number of default request options.
@@ -44,7 +44,30 @@ class saqservices {
             $r = $client->post($config->secAwarenessQuizConfig['unaService'], [
                 'body' => [
                     'service' => 'getSAQ',
-                    'request' => json_encode([ 'id' => $encryptbadge, 'count' => 5 ])
+                    'request' => json_encode([ 'id' => $encryptbadge, 'session_ts' => $session_ts, 'quiz_ts' => $quiz_ts, 'count' => 5 ])
+                ]
+            ]);
+            $resp = json_decode((string) $r->getBody(),true);
+            return new JSendResponse('success', $resp);                
+        } catch (Exception $e) {
+            return new JSendResponse('fail', [
+                'request' => $e->getRequest(),
+                'response' => ($e->hasResponse())?$e->getResponse():"",
+                'message' => $e->getMessage()
+            ]); 
+        }
+    }
+    public function updateSAQ($encryptbadge, $session_ts, $quiz_ts, $correct) {
+        $config = new UsfConfig();
+        $client = new Client([
+            // You can set any number of default request options.
+            'timeout'  => 2.0,
+        ]);
+        try {
+            $r = $client->post($config->secAwarenessQuizConfig['unaService'], [
+                'body' => [
+                    'service' => 'updateSAQ',
+                    'request' => json_encode([ 'id' => $encryptbadge, 'session_ts' => $session_ts, 'quiz_ts' => $quiz_ts, 'correct' => $correct, 'count' => 5 ])
                 ]
             ]);
             $resp = json_decode((string) $r->getBody(),true);
@@ -65,7 +88,32 @@ class saqservices {
      * @param type $answer
      * @return JSendResponse
      */
-    public function recordSAQitem($encryptbadge,$sa_id,$answer) {
+    public function recordSAQitem($encryptbadge, $quiz_ts, $sa_id, $answer) {
+        $config = new UsfConfig();
+        $client = new Client([
+            // You can set any number of default request options.
+            'timeout'  => 2.0,
+        ]);
+        try {
+            $r = $client->post($config->secAwarenessQuizConfig['unaService'], [
+                'body' => [
+                    'service' => 'recordSAQItem',
+                    'request' => json_encode([ 'id' => $encryptbadge, 'sa_id' => $sa_id, 'answer' => $answer, 'quiz_ts' => $quiz_ts ])
+                ]
+            ]);
+            $resp = json_decode((string) $r->getBody(),true);
+            return new JSendResponse('success', $resp);                
+        } catch (Exception $e) {
+            return new JSendResponse('fail', [
+                'request' => $e->getRequest(),
+                'response' => ($e->hasResponse())?$e->getResponse():"",
+                'message' => $e->getMessage()
+            ]); 
+        }
+    }
+
+    // record all answers and return pass/fail
+    public function recordSAQ($encryptbadge,$sa_id,$answer) {
         $config = new UsfConfig();
         $client = new Client([
             // You can set any number of default request options.

@@ -8,7 +8,7 @@
             If you encounter any problems with this quiz or have any questions, please contact USF Information Technology ("USF IT") at <a href="mailto:help@usf.edu">help@usf.edu</a>.
         </div>
     </div>
-    <div class="well well-sm">
+    <div ng-show="!loading" class="well well-sm"> 
         <div class="row panel panel-default" ng-repeat="item in items track by item.sa_id">
             <div class="panel-body">
                 <h4>{{item.question}}</h4>
@@ -22,7 +22,7 @@
             </div>
         </div>
     </div>
-    <div ng-if="quizComplete()" class="row">
+    <div ng-if="quizComplete() && !loading" class="row">
         <div ng-if="graded" class="saq-text">{{message}}</div>
         <div class="text-center">
             <button ng-if="!graded && quizComplete()" type="button" ng-click="submit(1)" class="btn btn-usf btn-lg btn-block">Submit</button>
