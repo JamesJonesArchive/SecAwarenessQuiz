@@ -11,3 +11,4 @@
 /public/
 /build/
 /app/api/composer.lock
+/npm-debug.log
