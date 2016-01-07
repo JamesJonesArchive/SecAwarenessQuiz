@@ -30,7 +30,7 @@
         "slim/slim": "2.5.*",
         "usf-it/usf-idm-common": "dev-master",
         "angular-ui/bootstrap": "dev-master",
-        "NanneHuiges/JSend": ">1.2.0",
+        "NanneHuiges/JSend": "2.1.0",
         "guzzlehttp/guzzle": "~5.0"
     },
     "require-dev": {
