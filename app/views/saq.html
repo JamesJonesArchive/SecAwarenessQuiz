@@ -1,9 +1,9 @@
 <div class="container">
     <div class="row">
         <div class="text-center">
-            <h3>Cybersecurity Awareness</h3>
+            <h3 tabindex="">Cybersecurity Awareness</h3>
         </div>
-        <div>
+        <div tabindex="0">
             In light of increased cybersecurity threats, which often include phishing attempts against USF students, faculty and staff, you are now required to take and pass a security awareness quiz.
             If you encounter any problems with this quiz or have any questions, please contact USF Information Technology ("USF IT") at <a href="mailto:help@usf.edu">help@usf.edu</a>.
         </div>
@@ -11,7 +11,7 @@
     <div ng-show="!loading" class="well well-sm"> 
         <div class="row panel panel-default" ng-repeat="item in items track by item.sa_id">
             <div class="panel-body">
-                <h4>{{item.question}}</h4>
+                <h4 tabindex="0">{{item.question}}</h4>
                 <div ng-if="graded && itemCorrect($index)" class="alert alert-success"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
                 <div ng-if="graded && !itemCorrect($index)" class="alert alert-danger"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
                 <div ng-if="!graded" class="pull-right">
