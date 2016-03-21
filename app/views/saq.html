@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="text-center">
-            <h3 tabindex="">Cybersecurity Awareness</h3>
+            <h3 tabindex="0" focus-on="title">Cybersecurity Awareness</h3>
         </div>
         <div tabindex="0">
             In light of increased cybersecurity threats, which often include phishing attempts against USF students, faculty and staff, you are now required to take and pass a security awareness quiz.
@@ -9,14 +9,14 @@
         </div>
     </div>
     <div ng-show="!loading" class="well well-sm"> 
-        <div class="row panel panel-default" ng-repeat="item in items track by item.sa_id">
+        <div class="row panel panel-default" ng-repeat="item in items track by item.sa_id" ng-init="outerIndex = $index">
             <div class="panel-body">
-                <h4 tabindex="0">{{item.question}}</h4>
-                <div ng-if="graded && itemCorrect($index)" class="alert alert-success"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
-                <div ng-if="graded && !itemCorrect($index)" class="alert alert-danger"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
+                <h4 tabindex="0" focus-on="{{'question' + outerIndex}}">{{item.question}}</h4>
+                <div ng-if="graded && itemCorrect(outerIndex)" class="alert alert-success"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
+                <div ng-if="graded && !itemCorrect(outerIndex)" class="alert alert-danger"><b>{{item.labels.split('|')[item.answer - 1]}}.</b> {{item.explanation}}</div>
                 <div ng-if="!graded" class="pull-right">
                     <div class="btn-group" role="group" aria-label="select an answer">
-                        <button type="button" ng-repeat="label in item.labels.split('|')" class="btn btn-usf" ng-model="item.selected" btn-radio="{{$index + 1}}">{{label}}</button>
+                        <button type="button" ng-repeat="label in item.labels.split('|')" ng-init="innerIndex = $index" class="btn btn-usf" ng-model="item.selected" btn-radio="{{innerIndex + 1}}" ng-click="focusQuestion(outerIndex+1)">{{label}}</button>
                     </div>
                 </div>
             </div>
@@ -25,9 +25,9 @@
     <div ng-if="quizComplete() && !loading" class="row">
         <div ng-if="graded" class="saq-text">{{message}}</div>
         <div class="text-center">
-            <button ng-if="!graded && quizComplete()" type="button" ng-click="submit(1)" class="btn btn-usf btn-lg btn-block">Submit</button>
-            <button ng-if="graded && !quizPassed()" type="button" ng-click="submit(2)" class="btn btn-usf btn-lg btn-block">Try Again</button>
-            <button ng-if="graded && quizPassed()" type="button" ng-click="submit(3)" class="btn btn-usf btn-lg btn-block">Next</button>        
+            <button ng-if="!graded && quizComplete()" type="button" ng-click="submit(1)" class="btn btn-usf btn-lg btn-block" focus-on="submit" aria-label="Checking your answers. Click to continue">Submit</button>
+            <button ng-if="graded && !quizPassed()" type="button" ng-click="submit(2)" class="btn btn-usf btn-lg btn-block" focus-on="tryagain" aria-label="{{message + ' Click to continue'}}">Try Again</button>
+            <button ng-if="graded && quizPassed()" type="button" ng-click="submit(3)" class="btn btn-usf btn-lg btn-block" focus-on="next" aria-label="{{message + ' Click to continue'}}">Next</button>        
         </div>
     </div>
 </div>

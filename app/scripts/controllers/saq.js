@@ -18,12 +18,28 @@
     'use strict';
     angular
     .module('saqApp')
-    .controller('saqCtrl', ['$scope','$rootScope','$window','$location','$routeParams','$q','saqService', function ($scope,$rootScope,$window,$location,$routeParams,$q,saqService) { 
+    .controller('saqCtrl', ['$scope','$rootScope','$window','$location','$routeParams','$q','$timeout','saqService', function ($scope,$rootScope,$window,$location,$routeParams,$q,$timeout,saqService) { 
         if('id' in $routeParams) {
             $scope.id = $routeParams.id;
             // create session identifier - timestamp
             $scope.session_ts = (new Date()).getTime() / 1000;
         }
+        $timeout(function() {
+            $rootScope.$broadcast('focusOn','title');
+        });
+        $scope.focusQuestion = function(questionNumber) {
+            $timeout(function() {
+                if($scope.quizComplete() && !$scope.loading) {
+                    if(!$scope.graded && $scope.quizComplete()) {
+                        $rootScope.$broadcast('focusOn','submit');
+                    } else {
+                        $rootScope.$broadcast('focusOn','question'+questionNumber);
+                    }                   
+                } else {
+                    $rootScope.$broadcast('focusOn','question'+questionNumber);
+                }
+            });
+        };
         // load a set of quiz items
         $scope.getItems = function() {
             // create quiz identifier - timestamp
@@ -106,20 +122,28 @@
                                 $scope.items[i].explanation = answer.data.data.explanation;
                             }
                         });
-                    }                   
-                    if ($scope.quizPassed()) {
-                        $scope.message = "Congratulations, you passed the quiz!";
-                    } else {
-                        $scope.message = "You must answer all questions correctly to pass this quiz.";
                     }
                     // either way, update the quiz record in db
                     $scope.quizUpdate();
                     $rootScope.loading = false;
+                    $timeout(function() {
+                        if ($scope.quizPassed()) {                        
+                            $scope.message = "Congratulations, you passed the quiz!";
+                            $rootScope.$broadcast('focusOn','next');
+                        } else {
+                            $scope.message = "You must answer all questions correctly to pass this quiz.";
+                            $rootScope.loading = false;
+                            $rootScope.$broadcast('focusOn','tryagain');
+                        }
+                    });
                 });
                 
             } else if (action === 2) { // reload the items
                 $scope.getItems();
                 $rootScope.loading = false;
+                $timeout(function() {
+                    $rootScope.$broadcast('focusOn','title');
+                });                
             } else { // return to una by triggering the close of the iFrame
                 $rootScope.loading = false;
                 $window.parent.postMessage(JSON.stringify({saq: true}), "*");
