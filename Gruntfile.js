@@ -42,7 +42,12 @@ module.exports = function (grunt) {
     app: require('./bower.json').appPath || 'app',
     dist: 'dist',
     public: 'public',
-    name: require('./bower.json').name
+    name: require('./package.json').name,
+    version: require('./package.json').version,
+    release: require('./package.json').release,
+    description: require('./package.json').description,
+    homepage: require('./package.json').homepage,
+    license: require('./package.json').license
   };
 
   // Define the configuration for all the tasks
