@@ -388,12 +388,12 @@ module.exports = function (grunt) {
       }
     },
 
-    // Replace Google CDN references
-    cdnify: {
-      dist: {
-        html: ['<%= yeoman.dist %>/*.html']
-      }
-    },
+//    // Replace Google CDN references
+//    cdnify: {
+//      dist: {
+//        html: ['<%= yeoman.dist %>/*.html']
+//      }
+//    },
 
     // Copies remaining files to places other tasks can use
     copy: {
@@ -485,7 +485,27 @@ module.exports = function (grunt) {
       },
       phpUpdate: {
         command: 'make --directory <%= yeoman.app %>/api update'
-      }
+      },
+      mkpublic: {
+        command: 'mkdir -p public'
+      },
+      mkdist: {
+        command: 'mkdir -p dist'
+      },
+      for_centos7: {
+        "command": [
+          [
+            '/usr/local/bin/fpm -s dir -t rpm -n \'<%= yeoman.name %>\' -v <%= yeoman.version %> '
+          ].join(' -d '),
+          '--description "<%= yeoman.description %>"',
+          '--url "<%= yeoman.homepage %>"',
+          '--license "<%= yeoman.license %>"',
+          '--vendor "University of South Florida"',
+          '--iteration "<%= yeoman.release %>"',
+          '--config-files /usr/local/etc/idm_config/secAwarenessQuiz.yml',
+          '-p public ./dist/.=/opt/site/saq ./config/secAwarenessQuiz.yml=/usr/local/etc/idm_config/secAwarenessQuiz.yml'
+          ].join(' ')
+        }
     },
 
     // Test settings
@@ -554,6 +574,24 @@ module.exports = function (grunt) {
     'usemin',
     'htmlmin',
     'compress'
+  ]);
+
+  grunt.registerTask('dist', [
+    'clean:dist',
+    'shell:mkpublic',
+    'shell:mkdist',
+    'wiredep',
+    'useminPrepare',
+    'concurrent:dist',
+    'autoprefixer',
+    'concat',
+    'ngAnnotate',
+    'copy:dist',
+    'cssmin',
+    'uglify',
+    'filerev',
+    'usemin',
+    'htmlmin'
   ]);
 
   grunt.registerTask('default', [
