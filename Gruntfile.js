@@ -506,7 +506,7 @@ module.exports = function (grunt) {
           '--url "<%= yeoman.homepage %>"',
           '--license "<%= yeoman.license %>"',
           '--vendor "University of South Florida"',
-          '--iteration "<%= yeoman.release %>"',
+          '--iteration "<%= yeoman.release %>".el7',
           '--config-files /usr/local/etc/idm_config/secAwarenessQuiz.yml',
           '-p public ./dist/.=/opt/site/saq ./config/secAwarenessQuiz.yml=/usr/local/etc/idm_config/secAwarenessQuiz.yml'
           ].join(' ')
