@@ -500,7 +500,7 @@ module.exports = function (grunt) {
       for_centos7: {
         "command": [
           [
-            '/usr/local/bin/fpm -s dir -t rpm -n \'<%= yeoman.name %>\' -v <%= yeoman.version %> '
+            '/usr/local/bin/fpm -f -s dir -t rpm -n \'<%= yeoman.name %>\' -v <%= yeoman.version %> '
           ].join(' -d '),
           '--description "<%= yeoman.description %>"',
           '--url "<%= yeoman.homepage %>"',
