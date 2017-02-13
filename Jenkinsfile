@@ -13,7 +13,7 @@ node('master') {
     sh "ls ${env.JENKINS_HOME}/bin/composer"
     sh "rm -Rf ${env.JENKINS_HOME}/bin/composer"
     sh "curl -sS https://getcomposer.org/installer | php -- --install-dir=${env.JENKINS_HOME}/bin --filename=composer"
-    sh "${env.JENKINS_HOME}/composer config -g github-oauth.github.com ${env.USF_GIT_OAUTH_KEY}"
+    sh "${env.JENKINS_HOME}/bin/composer config -g github-oauth.github.com ${env.USF_GIT_OAUTH_KEY}"
   }
   stage('Run Grunt build') {    
     sh 'node_modules/grunt-cli/bin/grunt build'
