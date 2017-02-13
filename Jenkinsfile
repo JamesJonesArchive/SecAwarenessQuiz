@@ -17,6 +17,7 @@ node('master') {
   }
   stage('Run Grunt build') {    
     sh 'node_modules/grunt-cli/bin/grunt build'
+    sh 'gem install fpm'
     sh 'node_modules/grunt-cli/bin/grunt shell:for_centos7'
     // sh 'mkdir -p tmp'
   }
