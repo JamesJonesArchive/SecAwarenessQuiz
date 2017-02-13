@@ -45,7 +45,7 @@ node('master') {
 //  }
 
 }
-node('image') {
+node('imageservice') {
     unstash 'secawarenessquizrpm'
 }
 
