@@ -16,7 +16,7 @@ node('master') {
   }
   stage('Run Grunt build') {    
     sh 'node_modules/grunt-cli/bin/grunt build'
-    ?/ sh 'mkdir -p tmp'
+    // sh 'mkdir -p tmp'
   }
 //  stage('Build Security Awareness Quiz') {  
 //    sh "vagrant halt --force || true"
