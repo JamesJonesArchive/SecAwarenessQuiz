@@ -19,7 +19,9 @@ node('master') {
     sh 'node_modules/grunt-cli/bin/grunt build'
     sh 'gem install fpm'
     sh 'node_modules/grunt-cli/bin/grunt shell:for_centos7'
-    stash name: "imageservicerpm", includes: "public/SecAwarenessQuiz*.rpm"
+    dir('public') {
+      stash name: "secawarenessquizrpm", includes: "SecAwarenessQuiz*.rpm"
+    }
   }
 //  stage('Build Security Awareness Quiz') {  
 //    sh "vagrant halt --force || true"
@@ -42,5 +44,8 @@ node('master') {
     // }
 //  }
 
+}
+node('image') {
+    unstash 'secawarenessquizrpm'
 }
 
