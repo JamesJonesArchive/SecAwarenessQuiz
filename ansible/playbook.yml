@@ -1,0 +1,6 @@
+- hosts: all
+  vars:
+    composer_settings: "{{ lookup('file','../app/api/composer.json') | from_json }}"
+  roles:
+    - { role: 'repo-epel', tags: ["build","deploy"] }
+
