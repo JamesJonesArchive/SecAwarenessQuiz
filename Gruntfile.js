@@ -44,7 +44,7 @@ module.exports = function (grunt) {
     public: 'public',
     name: require('./package.json').name,
     version: require('./package.json').version,
-    release: grunt.option( "interation" ) || require('./package.json').release,
+    release: grunt.option( "iteration" ) || require('./package.json').release,
     description: require('./package.json').description,
     homepage: require('./package.json').homepage,
     license: require('./package.json').license
