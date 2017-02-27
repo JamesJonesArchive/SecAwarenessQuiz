@@ -59,7 +59,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
            saq_web_fqdn: "saq.vagrant.dev",
            web_server_group: "vagrant",
            web_server_user: "vagrant",
-           composer_github_oauth: "#{ENV['USF_GIT_OAUTH_KEY']}",
+           composer_github_oauth_token: "#{ENV['USF_GIT_OAUTH_KEY']}",
            package_revision: "#{ENV['BUILD_NUMBER']}",
            app_name: "#{ENV['APP_NAME']}",
            app_version: "#{ENV['APP_VERSION']}",

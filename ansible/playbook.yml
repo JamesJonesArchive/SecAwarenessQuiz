@@ -33,6 +33,5 @@
       become: yes
       become_user: "{{ remote_user }}"   
       with_items:
-        - install
-        - update
+        - build
 
