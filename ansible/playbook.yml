@@ -3,4 +3,22 @@
     composer_settings: "{{ lookup('file','../app/api/composer.json') | from_json }}"
   roles:
     - { role: 'repo-epel', tags: ["build","deploy"] }
+  tasks:
+    - name: Enable php-56 and update
+      yum:
+      name: "php"
+      enablerepo: remi-php56
+      state: latest   
+      tags:
+        - build
+        - deploy
+    - name: Add phar.readonly to php.ini
+      ini_file:
+        dest: /etc/php.ini
+        section: Phar
+        option: phar.readonly
+        value: Off
+      tags:
+        - build
+        - deploy
 

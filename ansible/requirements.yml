@@ -5,3 +5,57 @@
   tags:
     - build
     - deploy
+- src: geerlingguy.repo-remi
+  version: 1.2.0
+  name: repo-remi
+  tags:
+    - build
+    - deploy
+- src: geerlingguy.nodejs
+  version: "4.0.0"
+  name: nodejs    
+  tags:
+    - build
+  nodejs_version: "6.x"
+  # nodejs_version: "0.12"
+  nodejs_npm_global_packages:
+    - name: jslint
+    - name: node-sass
+- src: geerlingguy.php
+  name: php_upgrade
+  version: 3.4.4
+  tags:
+    - build
+    - deploy
+  php_memory_limit: "128M"
+  php_max_execution_time: "90"
+  php_upload_max_filesize: "256M"
+  phar_phar.readonly: "Off"
+  php_enablerepo: "remi-php56,epel"
+  php_packages:
+    - php
+    - php-cli
+    - php-common
+    - php-devel
+    - php-gd
+    - php-mbstring
+    - php-pdo
+    - php-pecl-apcu
+    - php-xml
+    - php-pear
+    - php-pecl-zendopcache
+- src: geerlingguy.git
+  version: "1.2.1"
+  name: git
+  tags:
+    - build
+- src: geerlingguy.composer
+  version: "1.5.0"
+  name: composer
+  tags:
+    - build    
+  composer_path: '/usr/local/bin/composer' 
+  composer_home_path: "/vagrant/.composer"
+  composer_home_owner: vagrant
+  composer_home_group: vagrant
+  composer_add_to_path: false    
