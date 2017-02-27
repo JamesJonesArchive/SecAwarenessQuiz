@@ -26,12 +26,30 @@
       tags:
         - build
         - deploy
-    - name: Update composer dependencies for Security Awareness Exam
+    - name: Update composer dependencies for Security Awareness Quiz
       composer:
         command: "{{ item }}"
         working_dir: "/vagrant/app/api"
       become: yes
       become_user: "{{ remote_user }}"   
       with_items:
+        - install
+        - update
+      tags:
         - build
-
+    - name: Build the package
+      shell: "{{ item }}"
+      become: yes
+      become_user: "{{ remote_user }}"   
+      args:
+        chdir: "/vagrant"
+      register: result
+      with_items:
+        - "npm cache clean"
+        - "npm prune"
+        - "npm install --ignore-scripts"
+        - "node_modules/bower/bin/bower install"
+        - "node_modules/grunt-cli/bin/grunt dist"
+        - "node_modules/grunt-cli/bin/grunt shell:for_centos7 --iteration={{ package_revision }}"
+      tags:
+        - build
