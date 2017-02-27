@@ -67,7 +67,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
            provided_java: "#{ENV['JAVA_HOME']}"
        }
        # ansible.verbose = "vvv"
-       ansible.tags = "glassfish"
+       ansible.tags = "build"
        ansible.galaxy_role_file = "ansible/requirements.yml"
        ansible.galaxy_roles_path = "ansible/roles/"
     end
