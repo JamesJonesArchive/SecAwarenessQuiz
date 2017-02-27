@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: "{{ targetgroup }}"
   vars:
     composer_settings: "{{ lookup('file','../app/api/composer.json') | from_json }}"
   roles:

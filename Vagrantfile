@@ -64,7 +64,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
            app_name: "#{ENV['APP_NAME']}",
            app_version: "#{ENV['APP_VERSION']}",
            app_description: "#{ENV['APP_DESCRIPTION']}",
-           provided_java: "#{ENV['JAVA_HOME']}"
+           provided_java: "#{ENV['JAVA_HOME']}",
+           targetgroup: "all"
        }
        # ansible.verbose = "vvv"
        ansible.tags = "build"
