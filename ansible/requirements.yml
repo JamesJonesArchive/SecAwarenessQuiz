@@ -32,6 +32,7 @@
   php_upload_max_filesize: "256M"
   phar_phar.readonly: "Off"
   php_enablerepo: "remi-php56,epel"
+  php_enable_apc: false
   php_packages:
     - php
     - php-cli
@@ -40,7 +41,7 @@
     - php-gd
     - php-mbstring
     - php-pdo
-    - php-pecl-apcu
+    # - php-pecl-apcu
     - php-xml
     - php-pear
     - php-pecl-zendopcache
