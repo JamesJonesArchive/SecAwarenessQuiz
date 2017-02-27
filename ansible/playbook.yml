@@ -6,9 +6,9 @@
   tasks:
     - name: Enable php-56 and update
       yum:
-      name: "php"
-      enablerepo: remi-php56
-      state: latest   
+        name: "php"
+        enablerepo: remi-php56
+        state: latest   
       tags:
         - build
         - deploy
