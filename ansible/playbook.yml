@@ -5,6 +5,7 @@
     - { role: 'repo-epel', tags: ["build","deploy"] }
     - { role: 'repo-remi', tags: ["build","deploy"] }
     - { role: 'nodejs', tags: ["build"] }
+    - { role: 'php_upgrade', tags: ["build","deploy"] }
   tasks:
     - name: Enable php-56 and update
       yum:
