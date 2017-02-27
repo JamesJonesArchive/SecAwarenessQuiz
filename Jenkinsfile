@@ -38,14 +38,14 @@ node('master') {
     sh "VBoxManage controlvm saqvm poweroff || true"
     sh "VBoxManage unregistervm saqvm --delete || true"
     sh "rm -Rf '${env.JENKINS_HOME}/VirtualBox VMs/saqvm/'"
-    // dir('rpms') {
+    dir('public') {
       // archiveArtifacts artifacts: '*.rpm'
-      // stash name: "saqrpm", includes: "saq*.rpm"
-    // }
+      stash name: "secawarenessquizrpm", includes: "SecAwarenessQuiz*.rpm"
+    }
   }
 
 }
-// node('imageservice') {
-//     unstash 'secawarenessquizrpm'
-// }
+node('imageservice') {
+  unstash 'secawarenessquizrpm'
+}
 
