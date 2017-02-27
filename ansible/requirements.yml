@@ -59,3 +59,9 @@
   composer_home_owner: vagrant
   composer_home_group: vagrant
   composer_add_to_path: false    
+- src: ssh://git@github.com/USF-IT/cims-ansible-role-gems-fpm.git
+  version: master
+  scm: git
+  name: gems-fpm
+  tags:
+    - build
