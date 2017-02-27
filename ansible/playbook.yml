@@ -3,6 +3,8 @@
     composer_settings: "{{ lookup('file','../app/api/composer.json') | from_json }}"
   roles:
     - { role: 'repo-epel', tags: ["build","deploy"] }
+    - { role: 'repo-remi', tags: ["build","deploy"] }
+    - { role: 'nodejs', tags: ["build"] }
   tasks:
     - name: Enable php-56 and update
       yum:
