@@ -56,10 +56,10 @@
   tags:
     - build    
   composer_path: '/usr/local/bin/composer' 
-  composer_home_path: "/vagrant/.composer"
+  composer_home_path: "~/.composer"
   composer_home_owner: vagrant
   composer_home_group: vagrant
-  composer_add_to_path: false    
+  composer_add_to_path: true    
 - src: ssh://git@github.com/USF-IT/cims-ansible-role-gems-fpm.git
   version: master
   scm: git
