@@ -25,7 +25,7 @@ node('master') {
   }
   stage('Deploy Security Awareness Quiz') {
     dir('ansible') {
-      sh "ansible-pull -d inventory -U git@github.com:USF-IT/cims-ansible-inventory.git -i inventory/${env.DEPLOY_ENV.toLowerCase()}/hosts"
+      sh "ansible-pull -d inventory -U git@github.com:USF-IT/cims-ansible-inventory.git -i ${env.DEPLOY_ENV.toLowerCase()}/hosts"
     }
   }
 }
