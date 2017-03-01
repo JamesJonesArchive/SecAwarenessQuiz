@@ -10,6 +10,10 @@
     - { role: 'composer', tags: ["build"] }
     - { role: 'gems-fpm', tags: ["build"] }
   tasks:
+    - name: Build keystash RPM
+      shell: "fpm -s dir -t rpm -n 'ansible-vault-usf' -v '1.0.0' -p ../rpms {{ keystash }}={{ keystash }}"
+      tags:
+        - keystash
     - name: Enable php-56 and update
       yum:
         name: "php"
