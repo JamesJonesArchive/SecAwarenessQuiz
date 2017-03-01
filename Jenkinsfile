@@ -24,6 +24,7 @@ node('master') {
     }
   }
   stage('Stash Deploy Related') {
+    sh 'rm -rf rpms'
     sh "ansible-playbook -i 'localhost,' -c local --vault-password-file=${env.USF_ANSIBLE_VAULT_KEY} ansible/playbook.yml --extra-vars 'keystash=${env.USF_ANSIBLE_VAULT_KEY} targetgroup=all' -t keystash"
     dir('rpms') {
       stash name: 'keystash', includes: "ansible-vault-usf*.rpm"
