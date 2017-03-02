@@ -67,6 +67,7 @@ node('imageservice') {
       sh "yum -y install ansible || exit 0"
     }
     sh 'yum -y install rpms/ansible-vault-usf*.rpm || exit 0'
+    sh 'rm rpms/ansible-vault-usf*.rpm'
     unstash 'ansible'
   }
   stage('Deploy Security Awareness Quiz') {
