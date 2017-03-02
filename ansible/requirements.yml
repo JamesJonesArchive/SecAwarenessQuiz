@@ -71,4 +71,4 @@
   scm: git
   name: certtool
   tags:
-    - build
+    - deploy
