@@ -35,6 +35,10 @@
       tags:
         - build
         - deploy
+    - name: Copy over composer to vagrant user
+      shell: "cp -r /root/.composer /home/vagrant/"
+      tags:
+        - build
     - name: Update composer dependencies for Security Awareness Quiz
       composer:
         command: "{{ item }}"
