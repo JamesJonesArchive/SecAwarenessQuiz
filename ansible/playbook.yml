@@ -17,11 +17,23 @@
     - name: Build keystash RPM
       shell: "fpm -s dir -t rpm -n 'ansible-vault-usf' -v '1.0.0' -p ../rpms {{ keystash }}={{ keystash }}"
       tags:
-        - keystash
-    - name: Enable php-56 and update
+        - keystash        
+    - name: Enable remi and remi-56 repo
+      ini_file:
+        dest: "/etc/yum.repos.d/{{ item.file }}"
+        section: "{{ item.section }}"
+        option: enabled
+        value: 1
+      with_items:
+        - { file: 'remi.repo', section: 'remi' }    
+        - { file: 'remi.repo', section: 'remi-php56' }    
+      tags:
+        - build
+        - deploy
+    - name: Update php
       yum:
-        name: "php"
-        enablerepo: remi-php56
+        name: php
+        # enablerepo: remi-php56
         state: latest   
       tags:
         - build
