@@ -55,8 +55,8 @@
       composer:
         command: "{{ item }}"
         working_dir: "/vagrant/app/api"
-      # become: yes
-      # become_user: "{{ remote_user }}"   
+      become: yes
+      become_user: "{{ remote_user }}"   
       with_items:
         - install
         - update
