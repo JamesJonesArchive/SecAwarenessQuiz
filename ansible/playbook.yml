@@ -32,7 +32,7 @@
         - deploy
     - name: Update php
       yum:
-        name: php
+        name: '*'
         # enablerepo: remi-php56
         state: latest   
       tags:
