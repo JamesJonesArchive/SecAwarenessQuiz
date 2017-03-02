@@ -9,6 +9,7 @@
     - { role: 'git', tags: ["build"] }
     - { role: 'composer', tags: ["build"] }
     - { role: 'gems-fpm', tags: ["build"] }
+    - { role: 'nginx', tags: ["deploy"] }
     - { role: 'certtool', tags: ["deploy"] }
   tasks:
     - name: Create rpms folder
@@ -33,7 +34,6 @@
     - name: Update php
       yum:
         name: '*'
-        # enablerepo: remi-php56
         state: latest   
       tags:
         - build
@@ -85,4 +85,38 @@
       with_fileglob:
         - "../rpms/SecAwarenessQuiz*.rpm"
       tags:
+        - deploy        
+    ### nginx configuration
+    - name: remove the default nginx configuration
+      file: path=/etc/nginx/sites-enabled/default.conf state=absent
+      tags: 
+        - deploy
+    - name: create image service config dir
+      file: path=/etc/nginx/sites-enabled
+            state=directory
+            mode=0755
+      tags: 
+        - deploy
+    - name: get the template facts
+      set_fact:
+        image_cert_with_ca_chain: "/etc/pki/tls/certs/{{ ansible_fqdn | replace('.', '_') }}.crt"
+        image_cert_key: "/etc/pki/tls/certs/{{ ansible_fqdn | replace('.', '_') }}.key"
+        image_web_fqdn: "{{ ansible_fqdn }}"
+      tags: 
+        - deploy
+    - name: create nginx config for image_service
+      template:
+        src="{{ role_path}}/templates/nginx/image_service.conf.j2"
+        dest=/etc/nginx/sites-available/image_service.conf
+        mode=0644
+        backup=no
+      tags: 
+        - deploy
+    - file: path=/etc/nginx/sites-enabled/image_service.conf
+            src=/etc/nginx/sites-available/image_service.conf
+            state=link
+            force=yes
+      notify:
+        - restart nginx
+      tags: 
         - deploy
