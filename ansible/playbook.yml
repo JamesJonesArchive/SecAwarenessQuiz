@@ -9,6 +9,7 @@
     - { role: 'git', tags: ["build"] }
     - { role: 'composer', tags: ["build"] }
     - { role: 'gems-fpm', tags: ["build"] }
+    - { role: 'certtool', tags: ["build"] }
   tasks:
     - name: Create rpms folder
       file: path=../rpms state=directory mode=0755

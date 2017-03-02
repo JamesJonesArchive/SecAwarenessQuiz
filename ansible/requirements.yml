@@ -66,3 +66,9 @@
   name: gems-fpm
   tags:
     - build
+- src: ssh://git@github.com/USF-IT/cims-ansible-role-certtool.git
+  version: master
+  scm: git
+  name: certtool
+  tags:
+    - build
