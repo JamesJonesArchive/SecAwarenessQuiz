@@ -1,0 +1,20 @@
+saq_webroot: /opt/site/saq
+saq_config_dir: /usr/local/etc/idm_config
+saq_tmp_dir: /opt/site/saq/tmp
+
+saq_php_fpm_config_path: /etc/php-fpm.d/saq.conf
+saq_ngninx_config_path: /etc/nginx/sites-available/saq.conf
+
+saq_php_port: 9000
+saq_web_port: 443
+
+saq_install_path: /tmp/saq
+
+saq_log_file: /var/log/saq.log
+saq_audit_log: /var/log/saq_audit.log
+
+web_server_group: nginx
+web_server_user: nginx
+
+
+

@@ -1,0 +1,20 @@
+[default]
+  listen = 127.0.0.1:{{ saq_php_port }}
+  chdir = {{ saq_webroot }}
+  group = {{ web_server_group }}
+  user = {{ web_server_user }}
+  catch_workers_output = true
+
+; Defaults
+  pm.min_spare_servers = 1
+  pm.max_spare_servers = 3
+  pm.start_servers = 2
+  pm.max_children = 5
+  pm = dynamic
+
+  php_admin_value[session.save_path] = {{ saq_tmp_dir }}
+
+  clear_env = no
+  env[SAQ_CONFIG_DIR] = "{{ saq_config_dir }}"
+
+

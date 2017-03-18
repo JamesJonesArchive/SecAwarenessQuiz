@@ -1,4 +1,6 @@
 - hosts: "{{ targetgroup }}"
+  vars_files:
+    - ./vars/main.yml
   vars:
     composer_settings: "{{ lookup('file','../app/api/composer.json') | from_json }}"
   roles:
@@ -97,26 +99,41 @@
             mode=0755
       tags: 
         - deploy
-    - name: get the template facts
-      set_fact:
-        image_cert_with_ca_chain: "/etc/pki/tls/certs/{{ ansible_fqdn | replace('.', '_') }}.crt"
-        image_cert_key: "/etc/pki/tls/certs/{{ ansible_fqdn | replace('.', '_') }}.key"
-        image_web_fqdn: "{{ ansible_fqdn }}"
-      tags: 
-        - deploy
-    - name: create nginx config for image_service
+    - name: create nginx config for SAQ
       template:
-        src="{{ role_path}}/templates/nginx/image_service.conf.j2"
-        dest=/etc/nginx/sites-available/image_service.conf
+        src="{{ role_path}}/templates/nginx/saq.conf.j2"
+        dest=/etc/nginx/sites-available/saq.conf
         mode=0644
         backup=no
       tags: 
         - deploy
-    - file: path=/etc/nginx/sites-enabled/image_service.conf
-            src=/etc/nginx/sites-available/image_service.conf
+    - file: path=/etc/nginx/sites-enabled/saq.conf
+            src=/etc/nginx/sites-available/saq.conf
             state=link
             force=yes
       notify:
         - restart nginx
       tags: 
         - deploy
+    - name: remove the default php-fpm configuration pool
+      file: 
+        path: /etc/php-fpm.d/www.conf
+        state: absent
+      tags: 
+        - deploy
+    #### Configure PHP-FPM and nginx
+    - name: create PHP-FPM config for saq
+      template: 
+        src: ../templates/php-fpm/saq.conf.j2
+        dest: /etc/php-fpm.d/saq.conf
+        group: root
+        owner: root
+        mode: 0644
+        backup: no
+      tags: 
+        - deploy
+      notify:
+        - start php-fpm
+
+
+        
