@@ -101,7 +101,7 @@
         - deploy
     - name: create nginx config for SAQ
       template:
-        src="{{ role_path}}/templates/nginx/saq.conf.j2"
+        src="../templates/nginx/saq.conf.j2"
         dest=/etc/nginx/sites-available/saq.conf
         mode=0644
         backup=no
