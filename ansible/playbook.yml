@@ -111,8 +111,6 @@
             src=/etc/nginx/sites-available/saq.conf
             state=link
             force=yes
-      notify:
-        - restart nginx
       tags: 
         - deploy
     - name: remove the default php-fpm configuration pool
@@ -132,8 +130,15 @@
         backup: no
       tags: 
         - deploy
-      notify:
-        - start php-fpm
-
+    - name: Enable and start both nginx and php-fpm
+      service:
+        name: "{{ item}}
+        enabled: yes
+        state: restarted
+      with_items:
+        - nginx
+        - php-fpm
+      tags: 
+        - deploy
 
         
