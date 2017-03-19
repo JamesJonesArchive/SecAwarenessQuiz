@@ -132,13 +132,11 @@
         - deploy
     - name: Enable and start both nginx and php-fpm
       service:
-        name: "{{ item}}
+        name: "{{ item}}"
         enabled: yes
         state: restarted
       with_items:
-        - nginx
         - php-fpm
+        - nginx
       tags: 
-        - deploy
-
-        
+        - deploy   
